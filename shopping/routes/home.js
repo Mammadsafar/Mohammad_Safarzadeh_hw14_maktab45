@@ -7,7 +7,7 @@ const fs = require('fs');
 
 router.get('/:id', function (req, res) {
 
-    if (req.params.id === "home") {
+    if (req.params.id === "home" || req.params.id === "") {
         console.log(req.params.id);
         fs.readFile(path.join(__dirname, "../public/product.json"), "utf8", (err, product) => {
             if (err) {
@@ -15,7 +15,7 @@ router.get('/:id', function (req, res) {
             };
 
             product = JSON.parse(product);
-
+            console.log(product);
             if (!product) return res.status(404).send("product Not Found");
 
             res.render('pages/home', {
@@ -25,28 +25,30 @@ router.get('/:id', function (req, res) {
     } else {
         console.log(req.params.id);
 
-        fs.readFile(path.join(__dirname, "../public/product.json"), "utf8", (err, product) => {
+        fs.readFile(path.join(__dirname, "../public/product.json"), "utf8", (err, temp) => {
             if (err) {
                 return res.status(400).send("oops! something went wrong");
             };
-            product = JSON.parse(product);
+            temp = JSON.parse(temp);
             var results = [];
-            for (var i = 0; i < product.length; i++) {
-                for (key in product[i]) {
-                    if (product[i][key].indexOf(req.params.id) != -1) {
-                        results.push(product[i]);
+            for (var i = 0; i < temp.length; i++) {
+                for (key in temp[i]) {
+                    if (temp[i][key].indexOf(req.params.id) != -1) {
+                        results.push(temp[i]);
                     }
                 }
             }
-            // console.log(results);
-
+            console.log(results);
+            // let temp = results;
+ 
             if (results.length === 0) {
                 res.render('pages/notFound');
             } else {
-                let temp = results[0];
-                res.render('pages/product', {
-                    temp
+                let product = results;
+                res.render('pages/search', {
+                    product
                 });
+                console.log("success");
             }
 
         })
