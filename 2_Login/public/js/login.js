@@ -24,129 +24,210 @@ $(document).ready(function () {
         let gender = $("#gender");
 
         let array = [signUp_name, signUp_email, gender, signUp_pass, signUp_verify];
-        check_input(array);
-        console.log(`========================================>  ${i}  <========================================`);
-        i = i + 1;
-        // if (signUp_pass.val() !== signUp_verify.val()) {
-
-        //     $(`${signUp_pass.selector}, ${signUp_verify.selector}`).css({
-        //         "border-bottom": "2px solid #ff1818",
-        //     })
-
-        // } else {
-        //     $(`${signUp_pass.selector}, ${signUp_verify.selector}`).css({
-        //         "border-bottom": "1px solid #ffc185s",
-        //     })
-
-        // }
         for (const key in array) {
             console.log(key);
+            console.log(array[key].val());
 
-            if (array[key].val() !== "" || array[key].val() !== "Gender") {
+            if (array[key].val() === "" || array[key].val() === "Gender") {
                 console.log(`${array[key].selector} ======> RED`);
+
                 $(`${array[key].selector}`).css({
                     "border-bottom": "2px solid #ff1818",
                 })
 
+            } else if (array[key].val() !== "" || array[key].val() !== "Gender") {
+                console.log(`${array[key].selector} ======> YELLOW`);
+
+                $(`${array[key].selector}`).css({
+                    "border-bottom": "2px solid #ffc185",
+                })
+
             }
         }
+        signUp_name.on("click", () => {
+            $(`${signUp_name.selector}`).css({
+                "border-bottom": "2px solid #ffc185",
+            })
+        })
+        signUp_email.on("click", () => {
+            $(`${signUp_email.selector}`).css({
+                "border-bottom": "2px solid #ffc185",
+            })
+        })
+        signUp_pass.on("click", () => {
+            $(`${signUp_pass.selector}`).css({
+                "border-bottom": "2px solid #ffc185",
+            })
+        })
+        signUp_verify.on("click", () => {
+            $(`${signUp_verify.selector}`).css({
+                "border-bottom": "2px solid #ffc185",
+            })
+        })
+        gender.on("click", () => {
+            $(`${gender.selector}`).css({
+                "border-bottom": "2px solid #ffc185",
+            })
+        })
 
 
 
-        // if (signUp_name[0].value === "" && signUp_email[0].value === "" && signUp_pass[0].value === "" && signUp_verify[0].value === "" && gender[0].value === "Gender") {
 
-        //     $("#gender, #signUp_name, #signUp_email, #signUp_pass, #signUp_verify").css({
-        //         "border-bottom": "2px solid #ff1818",
-        //     })
+        if (check_input(array) === true) {
+            let user = {
+                userName: $(signUp_name).val(),
+                password: $(signUp_pass).val(),
+                email: $(signUp_email).val(),
+                gender: $(gender).val(),
+                isLoggedIn: false,
+                user_agent:""
+            }
+            $.ajax({
+                type: "POST",
+                url: "/login/signUpUser",
+                data: JSON.stringify(user),
+                // dataType: "application/json",
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: `${$(signUp_name).val()}`,
+                        text: 'Your Account was successfully signed in',
+                        // footer: '<a href>Why do I have this issue?</a>'
+                    })
+                },
 
-        
-        
+                error: function (err) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'UserName or Password is incorrect!',
+                        // footer: '<a href>Why do I have this issue?</a>'
+                    })
+                },
+            });
+        }
 
     });
     $("#login_btn").click(function (e) {
         let login_name = $("#login_name");
         let login_pass = $("#login_pass");
-        // e.preventDefault();
-        console.log(login_name[0].value);
-        console.log(login_pass[0].value);
-        
+
+
+        let array = [login_name, login_pass];
+        for (const key in array) {
+            if (array[key].val() === "") {
+                console.log(`${array[key].selector} ======> RED`);
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Please fill in all fields',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                $(`${array[key].selector}`).css({
+                    "border-bottom": "2px solid #ff1818",
+                })
+
+            } else {
+                console.log(`${array[key].selector} ======> YELLOW`);
+
+                $(`${array[key].selector}`).css({
+                    "border-bottom": "2px solid #ffc185",
+                })
+
+            }
+        }
+        login_name.on("click", () => {
+            $(`${login_name.selector}`).css({
+                "border-bottom": "2px solid #ffc185",
+            })
+        })
+        login_pass.on("click", () => {
+            $(`${login_pass.selector}`).css({
+                "border-bottom": "2px solid #ffc185",
+            })
+        })
+
+
+
+        if (login_name.val()!=="", login_pass.val()!=="") {
+            let user = {
+                userName: $(login_name).val(),
+                password: $(login_pass).val(),
+            }
+            $.ajax({
+                type: "POST",
+                url: "/login/LoginUser",
+                data: JSON.stringify(user),
+                // dataType: "application/json",
+                success: function (response) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Your are login now',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                    window.location.replace("/profile");
+                },
+
+                error: function (err) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: 'This user or password is invalid',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                    // console.log(err);
+                    // Swal.fire({
+                    //     icon: 'error',
+                    //     title: 'Oops...',
+                    //     text: 'This User Name already exists!',
+                    //     footer: '<a href>Why do I have this issue?</a>'
+                    // })
+                },
+            });
+        }
+
+
     });
-    
+
+
+
+
+
+
+
+
+
 })
 
 
 
 
-function check_input(array){
-    for (const key in array) {
-        console.log(key);
+function check_input(array) {
 
-        if (array[key].val() === "" || array[key].val() === "Gender") {
-            console.log(`${array[key].selector} ======> RED`);
-            $(`${array[key].selector}`).css({
-                "border-bottom": "2px solid #ff1818",
+    if ($(signUp_name).val() !== "" && $(signUp_email).val() !== "" && $(signUp_pass).val() !== "" && $(signUp_verify).val() !== "" && $(gender).val() !== "Gender") {
+        if ($(signUp_pass).val() !== $(signUp_verify).val()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Your Password is not match!',
+                footer: '<a href>Why do I have this issue?</a>'
             })
-
-        }if (array[key].val() !== "" || array[key].val() !== "Gender"){
-            console.log(`${array[key].selector} ======> YELLOW`);
-
-            $(`${array[key].selector}`).css({
-                "border-bottom": "1px solid #ffc185s",
-            })
-
+            return false;
         }
+        return true;
+    } else {
+        Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Please fill in all fields',
+            showConfirmButton: false,
+            timer: 1500
+        })
+        return false;
     }
+
 }
-
-
-
-
-    // //todo =======================> 1 <=======================
-    //     // $("#signUp_email::placeholder").css("color", "red");
-    //     // "color": "#ff7d00"original
-    //     // "color": "#ff1100"red
-    //     //todo =======================> 2 <=======================
-    // } else if (signUp_name[0].value !== "" && signUp_email[0].value === "" && signUp_pass[0].value === "" && signUp_verify[0].value === "" && gender[0].value === "Gender") {
-
-    //     $("#gender, #signUp_email, #signUp_pass, #signUp_verify").css({
-    //         "border-bottom": "2px solid #ff1818",
-    //     })
-    //     $("#signUp_name").css({
-    //         "border-bottom": "px solid #ffc185",
-    //     })
-    //     // $("#signUp_email::placeholder").css("color", "red");
-    //     //todo =======================> 3 <=======================
-    // } else if (signUp_name[0].value !== "" && signUp_email[0].value !== "" && signUp_pass[0].value === "" && signUp_verify[0].value === "" && gender[0].value === "Gender") {
-
-    //     $("#gender, #signUp_pass, #signUp_verify").css({
-    //         "border-bottom": "2px solid #ff1818",
-    //         "color": "#ff1100"
-    //     })
-    //     $(" #signUp_name, #signUp_email").css({
-    //         "border-bottom": "px solid #ffc185",
-    //     })
-    //     // $("#signUp_email::placeholder").css("color", "red");
-    //     //todo =======================> 4 <=======================
-    // } else if (signUp_name[0].value !== "" && signUp_email[0].value !== "" && signUp_pass[0].value === "" && signUp_verify[0].value === "" && gender[0].value === "Gender") {
-
-    //     $("#gender, #signUp_pass, #signUp_verify").css({
-    //         "border-bottom": "2px solid #ff1818",
-    //         "color": "#ff1100"
-    //     })
-    //     $(" #signUp_name, #signUp_email").css({
-    //         "border-bottom": "px solid #ffc185",
-    //     })
-    //     // $("#signUp_email::placeholder").css("color", "red");
-    //     //todo =======================> 5 <=======================
-    // } else if (signUp_name[0].value !== "" && signUp_email[0].value !== "" && signUp_pass[0].value === "" && signUp_verify[0].value === "" && gender[0].value === "Gender") {
-
-    //     $("#gender, #signUp_pass, #signUp_verify").css({
-    //         "border-bottom": "2px solid #ff1818",
-    //         "color": "#ff1100"
-    //     })
-    //     $(" #signUp_name, #signUp_email").css({
-    //         "border-bottom": "px solid #ffc185",
-    //     })
-    //     // $("#signUp_email::placeholder").css("color", "red");
-
-    // }

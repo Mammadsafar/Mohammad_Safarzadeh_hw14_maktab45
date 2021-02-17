@@ -5,9 +5,9 @@ const path = require('path');
 // const fs = require('fs');
 
 
-router.get('/:id', function (req, res) {
+router.get('/', function (req, res) {
 
-    if (req.params.id === "home" || req.params.id === "") {
+    // if (req.params.id === "home" || req.params.id === "") {
         // console.log(req.params.id);
         // fs.readFile(path.join(__dirname, "../public/product.json"), "utf8", (err, product) => {
         //     if (err) {
@@ -20,7 +20,7 @@ router.get('/:id', function (req, res) {
 
             res.render('pages/home');
         // })
-    }
+    // }
 
 
 
