@@ -11,7 +11,7 @@ router.get('/', function (req, res) {
         if (err) {
             return res.status("400").send("oops! something went wrong");
         };
-        console.log(users);
+        // console.log(users);
 
         users = JSON.parse(users);
 
@@ -33,12 +33,6 @@ router.get('/', function (req, res) {
 
     })
 
-
-
-
-
-
-
 })
 router.post('/logout', function (req, res) {
     // console.log(req.headers);
@@ -47,9 +41,9 @@ router.post('/logout', function (req, res) {
     // console.log(typeof req.headers.referer);
     req.on("data", function (User) {
         User = JSON.parse(User);
-        console.log("================================");
-        console.log(User);
-        console.log("================================");
+        // console.log("================================");
+        // console.log(User);
+        // console.log("================================");
 
         fs.readFile(path.join(__dirname, "../database/users.json"), "utf8", (err, users) => {
             if (err) {
@@ -65,7 +59,7 @@ router.post('/logout', function (req, res) {
 
             // todo for cookies
 
-            console.log(users);
+            // console.log(users);
             for (const key in users) {
 
                 if (users[key].userName === User.userName && users[key].isLoggedIn === true && users[key].user_agent === req.headers['user-agent']) {
@@ -113,7 +107,7 @@ router.post('/LoginUser', function (req, res) {
             // console.log(users);
             if (!users) return res.status("404").send("users Not Found");
 
-            console.log(check_user(User, users));
+            // console.log(check_user(User, users));
             if (check_user(User, users) === true) {
 
                 // todo for cookies
@@ -126,13 +120,13 @@ router.post('/LoginUser', function (req, res) {
                     }
                 }
 
-                console.log(users);
+                // console.log(users);
 
-                fs.writeFile(path.join(__dirname, "../database/users.json"), JSON.stringify(users), (err) => {
-                    if (err) return res.status("404");
-                    // users.push(User);
-                    console.log("===========> ok write");
-                });
+                // fs.writeFile(path.join(__dirname, "../database/users.json"), JSON.stringify(users), (err) => {
+                //     if (err) return res.status("404");
+                //     // users.push(User);
+                //     // console.log("===========> ok write");
+                // });
                 res.status(200);
                 // res.redirect('/home');
                 res.end();
@@ -189,7 +183,77 @@ router.post('/signUpUser', function (req, res) {
 
 })
 
+router.post('/update', function (req, res) {
+    req.on("data", function (User) {
+        User = JSON.parse(User);
 
+        // console.log(User);
+        fs.readFile(path.join(__dirname, "../database/users.json"), "utf8", (err, users) => {
+            if (err) {
+                return res.status("400").send("oops! something went wrong");
+            };
+            users = JSON.parse(users);
+            // console.log(users);
+            if (!users) return res.status("404").send("users Not Found");
+
+            // console.log(check_userName(User, users));
+
+            console.log(User);
+            if (User.password !== 0) {
+                for (const key in users) {
+                    if (users[key].email == User.userName) {
+                        if (users.email !== 0) {
+                            users[key].email = User.email;
+                            users[key].gender = User.gender;
+                            users[key].password = User.password;
+                            users[key].isLoggedIn = false;
+                        } else {
+                            users[key].gender = User.gender;
+                            users[key].password = User.password;
+                            users[key].isLoggedIn = false;
+                        }
+                    }
+                }
+
+                fs.writeFile(path.join(__dirname, "../database/users.json"), JSON.stringify(users), (err) => {
+                    if (err) return res.status("404");
+                });
+
+                res.status(200);
+                res.send("Password changed")
+                res.redirect('/login');
+
+            } else if (User.password === 0) {
+
+                for (const key in users) {
+                    if (users[key].email == User.userName) {
+                        if (users.email !== 0) {
+                            users[key].email = User.email;
+                            users[key].gender = User.gender;
+                        } else {
+                            users[key].gender = User.gender;
+                        }
+                    }
+                }
+
+
+                fs.writeFile(path.join(__dirname, "../database/users.json"), JSON.stringify(users), (err) => {
+                    if (err) return res.status("404");
+                });
+                // console.log("====200");
+                res.status(200);
+                res.send("salam")
+                res.end();
+            } else {
+                res.status("400").send("User Invalid");
+                res.end();
+            }
+
+
+
+        })
+    })
+})
 
 
 function check_userName(nweUser, users) {

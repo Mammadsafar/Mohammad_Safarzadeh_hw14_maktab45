@@ -111,9 +111,10 @@ $(document).ready(function () {
     $("#login_btn").click(function (e) {
         let login_name = $("#login_name");
         let login_pass = $("#login_pass");
-
-
         let array = [login_name, login_pass];
+        console.log(`${array[0].selector} ======> YELLOW`);
+        console.log(`${array[1].selector} ======> YELLOW`);
+
         for (const key in array) {
             if (array[key].val() === "") {
                 console.log(`${array[key].selector} ======> RED`);

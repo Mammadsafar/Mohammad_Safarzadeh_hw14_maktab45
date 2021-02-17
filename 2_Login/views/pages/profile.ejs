@@ -33,7 +33,8 @@
                                     <h4 id="userName"><%= user.userName %></h4>
                                     <p class="text-secondary mb-1">Full Stack Developer</p>
                                     <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                                    <button class="btn btn-primary" id="edit" type="button" >Edit</button>
+                                    <button type="button" id="edit" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#exampleModal">Edit</button>
                                     <button class="btn btn-outline-primary" id="logOut_btn">Log Out</button>
                                 </div>
                             </div>
@@ -218,35 +219,47 @@
 
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    <!-- <button type="button" id="edit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
         Sign Up
-    </button>
+    </button> -->
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal  " id="exampleModal" tabindex="2" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="column" id="main">
-                        <h1>Sign Up </h1>
-                        <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
+                        <h1>You can edit your profile here</h1>
                         <form>
                             <div class="form-group">
-                                <label for="exampleInputName">Name</label>
-                                <input type="name" class="form-control" id="exampleInputName" placeholder="Name">
+                                <label for="exampleInputName">Name :</label>
+                                <input type="name" class="form-control" id="exampleInputName"
+                                    placeholder="<%= user.userName %>" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">E-mail </label>
+                                <label for="exampleInputEmail1">E-mail :</label>
                                 <input type="email" class="form-control" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp" placeholder="E-mail">
+                                    aria-describedby="emailHelp" placeholder="<%= user.email %>">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
+                                <label for="exampleInputPassword1">Password :</label>
                                 <input type="password" class="form-control" id="exampleInputPassword1"
                                     placeholder="Password">
                             </div>
-                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Gender :</label>
+                                <select class="form-control" name="gender" id="gender">
+                                    <% if (user.gender == 'Male') { %>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <% } else { %>
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <button id="update_btn" type="button" class="btn btn-primary">Update</button>
                         </form>
                     </div>
                     <div>
@@ -264,10 +277,11 @@
                         </svg>
                     </div>
                     <div class="column" id="secondary">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
                         <div class="sec-content">
-                            <h2>Welcome Back!</h2>
-                            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-                            <button type="button" class="btn btn-primary">Login</button>
+                            <h2><%= user.userName %></h2>
+                            <h3><%= user.email %></h3>
+                            <h2><%= user.gender %></h2>
                         </div>
                     </div>
                 </div>

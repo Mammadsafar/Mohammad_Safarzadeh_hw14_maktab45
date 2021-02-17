@@ -17,9 +17,9 @@ router.get('/', function (req, res) {
         users = JSON.parse(users);
 
         for (const key in users) {
-            console.log(users[key].isLoggedIn);
-            console.log(users[key].user_agent);
-            console.log(req.headers['user-agent']);
+            // console.log(users[key].isLoggedIn);
+            // console.log(users[key].user_agent);
+            // console.log(req.headers['user-agent']);
 
 
             if (users[key].isLoggedIn === true && users[key].user_agent === req.headers['user-agent']) {
