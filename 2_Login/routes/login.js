@@ -122,11 +122,11 @@ router.post('/LoginUser', function (req, res) {
 
                 // console.log(users);
 
-                // fs.writeFile(path.join(__dirname, "../database/users.json"), JSON.stringify(users), (err) => {
-                //     if (err) return res.status("404");
-                //     // users.push(User);
-                //     // console.log("===========> ok write");
-                // });
+                fs.writeFile(path.join(__dirname, "../database/users.json"), JSON.stringify(users), (err) => {
+                    if (err) return res.status("404");
+                    // users.push(User);
+                    // console.log("===========> ok write");
+                });
                 res.status(200);
                 // res.redirect('/home');
                 res.end();
@@ -201,32 +201,40 @@ router.post('/update', function (req, res) {
             console.log(User);
             if (User.password !== 0) {
                 for (const key in users) {
-                    if (users[key].email == User.userName) {
+                    if (users[key].userName == User.userName) {
                         if (users.email !== 0) {
                             users[key].email = User.email;
                             users[key].gender = User.gender;
                             users[key].password = User.password;
                             users[key].isLoggedIn = false;
+                            users[key].user_agent = "";
                         } else {
                             users[key].gender = User.gender;
                             users[key].password = User.password;
                             users[key].isLoggedIn = false;
+                            users[key].user_agent = "";
                         }
                     }
                 }
-
+                console.log("===================================");
+                console.log(users);
+                console.log("===================================");
                 fs.writeFile(path.join(__dirname, "../database/users.json"), JSON.stringify(users), (err) => {
                     if (err) return res.status("404");
                 });
+                console.log(users);
 
                 res.status(200);
-                res.send("Password changed")
-                res.redirect('/login');
+                res.send("Passwordchanged")
+                // res.redirect('/login');
+                res.end();
 
             } else if (User.password === 0) {
 
                 for (const key in users) {
-                    if (users[key].email == User.userName) {
+                    if (users[key].userName == User.userName) {
+                        console.log(users[key]);
+
                         if (users.email !== 0) {
                             users[key].email = User.email;
                             users[key].gender = User.gender;
@@ -235,11 +243,15 @@ router.post('/update', function (req, res) {
                         }
                     }
                 }
-
+                console.log("===================================");
+                console.log(users);
+                console.log("===================================");
 
                 fs.writeFile(path.join(__dirname, "../database/users.json"), JSON.stringify(users), (err) => {
                     if (err) return res.status("404");
                 });
+                console.log(users);
+
                 // console.log("====200");
                 res.status(200);
                 res.send("salam")

@@ -15,16 +15,25 @@ router.get('/', function (req, res) {
         };
 
         users = JSON.parse(users);
-
+console.log(req.headers['user-agent']);
         for (const key in users) {
-            // console.log(users[key].isLoggedIn);
+            console.log(users[key].isLoggedIn);
             // console.log(users[key].user_agent);
             // console.log(req.headers['user-agent']);
 
 
             if (users[key].isLoggedIn === true && users[key].user_agent === req.headers['user-agent']) {
                 let user = users[key];
-                res.render('pages/profile' , {user});
+                let pic ;
+                let man = ["7", "2"];
+                let woman = ["8", "3"];
+                let num = Math.floor(Math.random() * 2);
+                if(user.gender === 'Male') {
+                    pic = man[num];
+                }else{
+                    pic = woman[num];
+                }
+                res.render('pages/profile' , {user , pic});
             }
         }
 

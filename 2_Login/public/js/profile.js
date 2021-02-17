@@ -45,6 +45,26 @@ $(document).ready(function () {
             // dataType: "dataType",
             success: function (response) {
                 console.log(response);
+                if (pass !== 0){
+
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Your password successfully changed',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    window.location.replace("/login");
+                }else{
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Your data successfully changed',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    window.location.replace("/profile");
+                }
             },
             error: function (err) {
                 console.log(err);

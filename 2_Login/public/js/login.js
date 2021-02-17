@@ -16,6 +16,44 @@ $(".back").click(function () {
 $(document).ready(function () {
     let i = 1;
 
+    $("#signUp_name").on("click", () => {
+
+        $("#signUp_name").css({
+            "border-bottom": "1px solid #ffc185",
+        })
+    })
+    $("#signUp_email").on("click", () => {
+        $("#signUp_email").css({
+            "border-bottom": "1px solid #ffc185",
+        })
+    })
+    $("#signUp_pass").on("click", () => {
+        $("#signUp_pass").css({
+            "border-bottom": "1px solid #ffc185",
+        })
+    })
+    $("#signUp_verify").on("click", () => {
+        $("#signUp_verify").css({
+            "border-bottom": "1px solid #ffc185",
+        })
+    })
+    $("#gender").on("click", () => {
+        $("#gender").css({
+            "border-bottom": "1px solid #ffc185",
+        })
+    })
+
+    $("login_name").on("click", () => {
+        console.log(11111111111111);
+        $("login_name").css({
+            "border-bottom": "1px solid #ffc185",
+        })
+    })
+    $("login_pass").on("click", () => {
+        $("login_pass").css({
+            "border-bottom": "1px solid #ffc185",
+        })
+    })
     $("#signUp_btn").click(function (e) {
         let signUp_name = $("#signUp_name");
         let signUp_email = $("#signUp_email");
@@ -24,54 +62,25 @@ $(document).ready(function () {
         let gender = $("#gender");
 
         let array = [signUp_name, signUp_email, gender, signUp_pass, signUp_verify];
+        let array2 = ["signUp_name", "signUp_email", "gender", "signUp_pass", "signUp_verify"];
         for (const key in array) {
             console.log(key);
             console.log(array[key].val());
 
             if (array[key].val() === "" || array[key].val() === "Gender") {
-                console.log(`${array[key].selector} ======> RED`);
 
-                $(`${array[key].selector}`).css({
+                $(`#${array2[key]}`).css({
                     "border-bottom": "2px solid #ff1818",
                 })
 
             } else if (array[key].val() !== "" || array[key].val() !== "Gender") {
-                console.log(`${array[key].selector} ======> YELLOW`);
 
-                $(`${array[key].selector}`).css({
-                    "border-bottom": "2px solid #ffc185",
+                $(`#${array2[key]}`).css({
+                    "border-bottom": "1px solid #ffc185",
                 })
 
             }
         }
-        signUp_name.on("click", () => {
-            $(`${signUp_name.selector}`).css({
-                "border-bottom": "2px solid #ffc185",
-            })
-        })
-        signUp_email.on("click", () => {
-            $(`${signUp_email.selector}`).css({
-                "border-bottom": "2px solid #ffc185",
-            })
-        })
-        signUp_pass.on("click", () => {
-            $(`${signUp_pass.selector}`).css({
-                "border-bottom": "2px solid #ffc185",
-            })
-        })
-        signUp_verify.on("click", () => {
-            $(`${signUp_verify.selector}`).css({
-                "border-bottom": "2px solid #ffc185",
-            })
-        })
-        gender.on("click", () => {
-            $(`${gender.selector}`).css({
-                "border-bottom": "2px solid #ffc185",
-            })
-        })
-
-
-
 
         if (check_input(array) === true) {
             let user = {
@@ -80,7 +89,7 @@ $(document).ready(function () {
                 email: $(signUp_email).val(),
                 gender: $(gender).val(),
                 isLoggedIn: false,
-                user_agent:""
+                user_agent: ""
             }
             $.ajax({
                 type: "POST",
@@ -94,6 +103,7 @@ $(document).ready(function () {
                         text: 'Your Account was successfully signed in',
                         // footer: '<a href>Why do I have this issue?</a>'
                     })
+                    window.location.replace("/login");
                 },
 
                 error: function (err) {
@@ -112,12 +122,11 @@ $(document).ready(function () {
         let login_name = $("#login_name");
         let login_pass = $("#login_pass");
         let array = [login_name, login_pass];
-        console.log(`${array[0].selector} ======> YELLOW`);
-        console.log(`${array[1].selector} ======> YELLOW`);
+        let array2 = ["login_name", "login_pass"];
+
 
         for (const key in array) {
             if (array[key].val() === "") {
-                console.log(`${array[key].selector} ======> RED`);
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
@@ -125,33 +134,23 @@ $(document).ready(function () {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                $(`${array[key].selector}`).css({
+                $(`#${array2[key]}`).css({
                     "border-bottom": "2px solid #ff1818",
                 })
 
             } else {
-                console.log(`${array[key].selector} ======> YELLOW`);
 
-                $(`${array[key].selector}`).css({
-                    "border-bottom": "2px solid #ffc185",
+                $(`#${array2[key]}`).css({
+                    "border-bottom": "1px solid #ffc185",
                 })
 
             }
         }
-        login_name.on("click", () => {
-            $(`${login_name.selector}`).css({
-                "border-bottom": "2px solid #ffc185",
-            })
-        })
-        login_pass.on("click", () => {
-            $(`${login_pass.selector}`).css({
-                "border-bottom": "2px solid #ffc185",
-            })
-        })
 
 
 
-        if (login_name.val()!=="", login_pass.val()!=="") {
+
+        if (login_name.val() !== "", login_pass.val() !== "") {
             let user = {
                 userName: $(login_name).val(),
                 password: $(login_pass).val(),
@@ -168,7 +167,7 @@ $(document).ready(function () {
                         title: 'Your are login now',
                         showConfirmButton: false,
                         timer: 1500
-                      })
+                    })
                     window.location.replace("/profile");
                 },
 
@@ -179,7 +178,7 @@ $(document).ready(function () {
                         title: 'This user or password is invalid',
                         showConfirmButton: false,
                         timer: 1500
-                      })
+                    })
                     // console.log(err);
                     // Swal.fire({
                     //     icon: 'error',
