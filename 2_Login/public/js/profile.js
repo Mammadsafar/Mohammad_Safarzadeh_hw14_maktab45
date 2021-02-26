@@ -3,11 +3,6 @@ $(document).ready(function () {
 
 
 
-    // $("#edit").click(function(){
-    //     console.log("masfdofljdsahfbknarlrisyfhdbkzjn");
-    //     // $("#exampleModal").modal("show");
-    //   });
-
 
     $("#update_btn").click(function (e) {
 
@@ -45,7 +40,7 @@ $(document).ready(function () {
             // dataType: "dataType",
             success: function (response) {
                 console.log(response);
-                if (pass !== 0){
+                if (pass !== 0) {
 
                     Swal.fire({
                         position: 'top-end',
@@ -55,7 +50,7 @@ $(document).ready(function () {
                         timer: 1500
                     })
                     window.location.replace("/login");
-                }else{
+                } else {
                     Swal.fire({
                         position: 'top-end',
                         icon: 'success',
@@ -117,17 +112,6 @@ $(document).ready(function () {
 
 
     });
-
-
-
-
-
-
-
-
-
-
-
 
 
 

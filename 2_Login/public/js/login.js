@@ -179,13 +179,7 @@ $(document).ready(function () {
                         showConfirmButton: false,
                         timer: 1500
                     })
-                    // console.log(err);
-                    // Swal.fire({
-                    //     icon: 'error',
-                    //     title: 'Oops...',
-                    //     text: 'This User Name already exists!',
-                    //     footer: '<a href>Why do I have this issue?</a>'
-                    // })
+
                 },
             });
         }
